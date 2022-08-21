@@ -44,7 +44,7 @@ const routes = [
     component: () => import('@/views/pages/account-settings/AccountSettings.vue'),
   },
   {
-    path: '/pages/login',
+    path: '/login',
     name: 'pages-login',
     component: () => import('@/views/pages/Login.vue'),
     meta: {
@@ -52,7 +52,7 @@ const routes = [
     },
   },
   {
-    path: '/pages/register',
+    path: '/register',
     name: 'pages-register',
     component: () => import('@/views/pages/Register.vue'),
     meta: {
