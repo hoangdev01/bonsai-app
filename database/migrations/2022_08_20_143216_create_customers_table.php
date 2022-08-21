@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->text("name");
-            $table->string("phone");
-            $table->string("email");
-            $table->text("address");
-            $table->float("point");
+            $table->string("phone")->nullable();
+            $table->string("email")->nullable();
+            $table->text("address")->nullable();
+            $table->float("point")->default(0)->nullable();
             $table->timestamps();
         });
     }

@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/{any}', [ApplicationController::class, 'index'])->where('any', '.*');
+// Route::get('/{any}', [ApplicationController::class, 'index'])->where('any', '.*');
 
 Route::post("/test", [ApplicationController::class, "test"]);
 
@@ -44,7 +44,7 @@ Route::resource("/tag", TagController::class)->except(["create", "edit"]);
 Route::resource("/tree", TreeController::class)->except(["create", "edit"]);
 Route::resource("/type", TypeController::class)->except(["create", "edit"]);
 
-// Route::get("get-csrf", [ApplicationController::class, "getCsrf"]);
+Route::get("get-csrf", [ApplicationController::class, "getCsrf"]);
 
 Auth::routes();
 

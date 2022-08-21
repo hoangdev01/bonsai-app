@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->text("name");
-            $table->text("description");
-            $table->integer("postable_id");
-            $table->string("postable_type");
+            $table->text("description")->nullable();
+            $table->integer("postable_id")->nullable();
+            $table->string("postable_type")->nullable();
             $table->timestamps();
         });
     }

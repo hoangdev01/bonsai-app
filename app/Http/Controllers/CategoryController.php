@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\Category\CategoryRepositoryInterface;
-use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
+
 
 class CategoryController extends Controller
 {
@@ -23,17 +23,7 @@ class CategoryController extends Controller
     {
         $categories = $this->categoryRepo->getAll();
 
-        return response()->json(["success" => true, $categories]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(["success" => true, "categories" => $categories]);
     }
 
     /**
@@ -44,11 +34,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+
         $data = $request->all();
 
-        //... Validation here
-
-        $category = $this->productRepo->create($data);
+        $request->validate([
+            "name" => "required|max:2",
+            "description" => "required"
+        ]);
+        
+        $category = $this->categoryRepo->create($data);
 
         return response()->json(["success" => true, "message" => "Add Category successful"]);
     }
@@ -59,24 +53,13 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $category = $this->categoryRepo->find($id);
+        $category = $this->categoryRepo->findBySlug($slug);
 
-        return response()->json(["success"=> true, $category]);
+        return response()->json(["success"=> true, "category" => $category]);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
+    
     /**
      * Update the specified resource in storage.
      *

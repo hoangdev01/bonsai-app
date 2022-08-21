@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string("slug")->unique();
             $table->text("name");
-            $table->text("description");
-            $table->integer("type_id");
+            $table->text("description")->nullable();
+            $table->integer("type_id")->nullable();
             $table->timestamps();
         });
     }

@@ -17,14 +17,14 @@ return new class extends Migration
             $table->id();
             $table->string("code");
             $table->text("name");
-            $table->text("description");
-            $table->float("height");
-            $table->integer("age");
-            $table->float("starting_price");
-            $table->text("special_point");
-            $table->integer("pot_id");
-            $table->integer("species_id");
-            $table->integer("bending_style_id");
+            $table->text("description")->nullable();
+            $table->float("height")->default(0);
+            $table->integer("age")->default(0);
+            $table->float("starting_price")->default(0);
+            $table->text("special_point")->nullable();
+            $table->integer("pot_id")->nullable();
+            $table->integer("species_id")->nullable();
+            $table->integer("bending_style_id")->nullable();
             $table->timestamps();
         });
     }

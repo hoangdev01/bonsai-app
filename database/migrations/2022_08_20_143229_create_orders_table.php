@@ -18,7 +18,7 @@ return new class extends Migration
             $table->float("total_price");
             $table->text("status");
             $table->float("point");
-            $table->text("notice");
+            $table->text("notice")->nullable();
             $table->integer("customer_id");
             $table->timestamps();
         });
