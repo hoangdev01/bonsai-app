@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('pending_styles', function (Blueprint $table) {
             $table->id();
+            $table->string("slug")->unique();
             $table->text("name");
             $table->text("description");
             $table->timestamps();

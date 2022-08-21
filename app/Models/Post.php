@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
+    protected $fillable = ["name", "description", "path", "postable_id", "postable_type"];
+    public function postable(){
+        return $this->morphTo();
+    }
 }
