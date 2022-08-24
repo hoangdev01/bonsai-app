@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\Category\CategoryRepositoryInterface;
+use Exception;
 use Illuminate\Http\Request;
-
 
 class CategoryController extends Controller
 {
+
     protected $categoryRepo;
 
     public function __construct(CategoryRepositoryInterface $categoryRepo)
@@ -21,9 +22,18 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = $this->categoryRepo->getAll();
+        try{
 
-        return response()->json(["success" => true, "categories" => $categories]);
+            $categories = $this->categoryRepo->getAll();
+    
+            return response()->json(["success" => true, "categories" => $categories]);
+
+        }catch(Exception $e){
+
+            echo $e;
+            
+            return response()->json(["success" => false, "message" => "Internal server error"]);
+        }
     }
 
     /**
@@ -34,17 +44,24 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        try{
 
-        $data = $request->all();
+            $data = $request->all();
 
-        $request->validate([
-            "name" => "required|max:2",
-            "description" => "required"
-        ]);
+            $request->validate([
+                "name" => "required",
+            ]);
         
-        $category = $this->categoryRepo->create($data);
+            $category = $this->categoryRepo->createWithSlug($data);
 
-        return response()->json(["success" => true, "message" => "Add Category successful"]);
+            return response()->json(["success" => true, "message" => "Add Category successful"]);
+
+        }catch(Exception $e){
+
+            echo $e;
+            
+            return response()->json(["success" => false, "message" => "Internal server error"]);
+        }
     }
 
     /**
@@ -55,9 +72,18 @@ class CategoryController extends Controller
      */
     public function show($slug)
     {
-        $category = $this->categoryRepo->findBySlug($slug);
+        try{
 
-        return response()->json(["success"=> true, "category" => $category]);
+            $category = $this->categoryRepo->findBySlug($slug);
+    
+            return response()->json(["success"=> true, "category" => $category]);
+
+        }catch(Exception $e){
+
+            echo $e;
+            
+            return response()->json(["success" => false, "message" => "Internal server error"]);
+        }
     }
     
     /**
@@ -67,15 +93,26 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        $data = $request->all();
+        try{
 
-        //... Validation here
+            $data = $request->all();
+    
+            $request->validate([
+                "name" => "required",
+            ]);
 
-        $category = $this->categoryRepo->update($id, $data);
+            $category = $this->categoryRepo->updateBySlug($slug, $data);
 
-        return response()->json(["success"=> true, "message" => "Update category successful"]);
+            return response()->json(["success"=> true, "message" => "Update category successful"]);
+            
+        }catch(Exception $e){
+
+            echo $e;
+            
+            return response()->json(["success" => false, "message" => "Internal server error"]);
+        }
     }
 
     /**
@@ -84,10 +121,19 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        $this->categoryRepo->delete($id);
-        
-        return response()->json(["success"=> true, "message" => "Delete category successful"]);
+        try{
+            
+            $category = $this->categoryRepo->deleteBySlug($slug);
+            
+            return response()->json(["success"=> true, "message" => "Delete category successful"]);
+                
+        }catch(Exception $e){
+
+            echo $e;
+            
+            return response()->json(["success" => false, "message" => "Internal server error"]);
+        }
     }
 }

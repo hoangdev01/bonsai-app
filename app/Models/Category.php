@@ -9,7 +9,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 class Category extends Model
 {
     use HasFactory, Sluggable;
-    protected $fillable = ["slug", "name", "description", "type_id"];
+    protected $fillable = ["slug", "name", "description"];
     public function sluggable(): array
     {
         return [

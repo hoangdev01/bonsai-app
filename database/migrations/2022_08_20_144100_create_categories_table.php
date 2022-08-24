@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string("slug")->unique();
             $table->text("name");
             $table->text("description")->nullable();
-            $table->integer("type_id")->nullable();
             $table->timestamps();
         });
     }

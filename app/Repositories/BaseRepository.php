@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Repositories\RepositoryInterface;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 
 abstract class BaseRepository implements RepositoryInterface
 {
@@ -59,6 +60,44 @@ abstract class BaseRepository implements RepositoryInterface
     public function delete($id)
     {
         $result = $this->find($id);
+        if ($result) {
+            $result->delete();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function findBySlug($slug)
+    {
+
+        $result = $this->model->where("slug", $slug)->first();
+
+        return $result;
+    }
+
+    public function createWithSlug($attributes = [])
+    {
+        $attributes["slug"] = SlugService::createSlug($this->model, 'slug', $attributes["name"]);
+
+        return $this->model->create($attributes);
+    }
+
+    public function updateBySlug($slug, $attributes = [])
+    {
+        $result = $this->model->where("slug", $slug)->first();
+        if ($result) {
+            $result->update($attributes);
+            return $result;
+        }
+
+        return false;
+    }
+
+    public function deleteBySlug($slug)
+    {
+        $result = $this->model->where("slug", $slug)->first();
         if ($result) {
             $result->delete();
 
